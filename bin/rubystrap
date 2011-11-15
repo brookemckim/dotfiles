@@ -1,0 +1,35 @@
+#!/bin/sh
+
+server=$1
+rubies=$2
+
+ruby_www="http://ftp.ruby-lang.org/pub/ruby"
+
+if [ -z $2 ]; then
+  rubies='1.9.3-p0'
+  echo "Installing $rubies"
+else
+  rubies=$2
+  echo "Installing $2"
+fi  
+
+if [[ "$rubies" == 1.9* ]]; then
+  ver="1.9"
+elif [[ "$rubies" == 1.8* ]]; then
+  ver="1.8"
+else
+  echo "Unrecognized Ruby version"
+  exit 1
+fi      
+
+# Bootstrap the server for Ruby install
+ssh $server "apt-get update -y \
+             && apt-get install -y build-essential git-core subversion \
+             && apt-get install -y zlib1g-dev libssl-dev libruby1.8 libreadline5-dev libncurses5-dev libreadline5 \
+             && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv \
+             && cd ruby-$rubies &&  ./configure && make && make install"
+
+#wget http://superpitfall.teve.inc/bootstrap/rubygems-1.8.10.tgz -O - | tar xzv
+#cd rubygems-1.8.10 && ruby setup.rb
+
+#gem install chef -v=0.10.0 --no-ri --no-rdoc

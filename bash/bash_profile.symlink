@@ -1,0 +1,9 @@
+# shortcut to this dotfiles path is $dots
+export DOTS=$HOME/.dotfiles
+
+# source every .sh file in this rep
+CONFIGS=$DOTS/**/*.sh
+for config_file in $CONFIGS
+do
+ source $config_file
+done
