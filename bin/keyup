@@ -6,6 +6,6 @@ if  [ -z $1 ];then
 fi
 
 server=$1
-key='/Users/bmckim/.ssh/id_rsa.pub'
+key="$HOME/.ssh/id_rsa.pub"
 
 scp $key $server:~/bmckim.pub && ssh $server 'mkdir -p ~/.ssh && cat ~/bmckim.pub >> ~/.ssh/authorized_keys; rm -rf ~/bmckim.pub'
