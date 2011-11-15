@@ -25,12 +25,18 @@ fi
 # Bootstrap the server for Ruby install && Install Ruby
 #
 # Other Dependencies: 
-#  libxml2-dev - Nokogiri
-#  libxslt-dev - Nokogiri
-#  libyaml-dev - Psych
+#  Nokogiri
+#    libxml2-dev
+#    libxslt-dev
+#  Psych
+#    libyaml-dev
+#  Sqlite
+#    sqlite3
+#    sqlite3-dev
 ssh $server "apt-get update -y \
-             && apt-get install -y build-essential git-core subversion \
-             && apt-get install -y zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev libreadline5-dev libncurses5-dev libreadline5 libyaml-dev \
+             && apt-get install -y build-essential git-core subversion vim \
+                zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev sqlite3 libsqlite3-dev \
+                libreadline5-dev libncurses5-dev libreadline5 libyaml-dev \
              && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv \
              && cd ruby-$rubies &&  ./configure && make && make install \
              && gem update --system \
