@@ -1,4 +1,5 @@
 alias be='bundle exec'
+alias rehash='rbenv rehash'
 
 function gi() {
   gem install $@
