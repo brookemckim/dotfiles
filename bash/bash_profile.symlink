@@ -7,3 +7,5 @@ for config_file in $CONFIGS
 do
  source $config_file
 done
+
+chmod +x $DOTS/bin/*
