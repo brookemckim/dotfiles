@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 EOF
 
-directory = File.expand_path(ARGV[0])
+directory = File.expand_path(ARGV[0] || ".")
 file = File.join(directory, 'LICENSE')
 
 if File.exists?(file)
