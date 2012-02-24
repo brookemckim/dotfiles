@@ -1,1 +1,1 @@
-export PATH="$DOTS/bin:$PATH"
+export PATH="$DOTS/bin:/usr/local/sbin:$PATH"
