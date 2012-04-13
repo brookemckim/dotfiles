@@ -1,1 +1,1 @@
-export PATH="$DOTS/bin:/usr/local/sbin:$PATH"
+export PATH="/Users/bmckim/.dotfiles/bin:/usr/local/sbin:/Users/bmckim/.rbenv/shims:/Users/bmckim/.rbenv/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
