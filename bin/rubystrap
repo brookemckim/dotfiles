@@ -62,8 +62,6 @@ fi
 ruby_gems=$ruby_gems" && gem update --system && sudo gem install bundler --no-ri --no-rdoc"
 install=$apt_get$ruby$ruby_gems
 
-echo $install
-
 if [[ "$server" == "local" ]]
 then
   $install
