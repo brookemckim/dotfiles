@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 server=$1
 rubies=$2
