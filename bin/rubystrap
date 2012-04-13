@@ -3,26 +3,37 @@
 server=$1
 rubies=$2
 
+if [ -z $1 ]
+then
+  echo "Please provide a host to rubystrap."
+  echo " remote - rubystrap root@192.168.1.2 1.9.3-p125"
+  echo " local  - rubystrap local 1.8.7-p352"
+  exit 1
+fi  
+
 ruby_www="http://ftp.ruby-lang.org/pub/ruby"
 
-if [ -z $2 ]; then
-  rubies='1.9.3-p0'
+if [ -z $2 ]
+then
+  rubies='1.9.3-p125'
   echo "Installing $rubies"
 else
   rubies=$2
   echo "Installing $2"
 fi  
 
-if [[ "$rubies" == 1.9* ]]; then
+if [[ "$rubies" == 1.9* ]]
+then
   ver="1.9"
-elif [[ "$rubies" == 1.8* ]]; then
+elif [[ "$rubies" == 1.8* ]]
+then
   ver="1.8"
 else
   echo "Unrecognized Ruby version"
   exit 1
 fi      
 
-# Bootstrap the server for Ruby install && Install Ruby
+# Install Ruby compile dependencies, install Ruby and RubyGems, upgrade Rubygems.
 #
 # Other Dependencies: 
 #  Nokogiri
@@ -33,11 +44,29 @@ fi
 #  Sqlite
 #    sqlite3
 #    sqlite3-dev
-ssh $server "apt-get update -y \
-             && apt-get install -y build-essential git-core subversion vim \
-                zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev sqlite3 libsqlite3-dev \
-                libreadline5-dev libncurses5-dev libreadline5 libyaml-dev \
-             && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv \
-             && cd ruby-$rubies &&  ./configure && make && make install \
-             && gem update --system \
-             && gem install bundler --no-ri --no-rdoc"
+
+apt_get="sudo apt-get update -y
+         && sudo apt-get install -y build-essential git-core subversion vim 
+            zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev sqlite3 libsqlite3-dev
+            libreadline-dev libncurses5-dev libreadline5 libyaml-dev"
+               
+ruby=" && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv && cd ruby-$rubies &&  ./configure && make && sudo make install"               
+               
+if [ $ver == "1.8" ]
+then
+  ruby_gems=" && wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.21.tgz -O - | tar xzv && cd rubygems-1.8.21 && sudo ruby setup.rb"
+else
+  ruby_gems=" " 
+fi  
+
+ruby_gems=$ruby_gems" && gem update --system && sudo gem install bundler --no-ri --no-rdoc"
+install=$apt_get$ruby$ruby_gems
+
+echo $install
+
+if [[ "$server" == "local" ]]
+then
+  $install
+else
+  ssh -t $server $install 
+fi             
