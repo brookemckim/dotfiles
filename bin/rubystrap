@@ -59,7 +59,7 @@ else
   ruby_gems=" " 
 fi  
 
-ruby_gems=$ruby_gems" && gem update --system && sudo gem install bundler --no-ri --no-rdoc"
+ruby_gems=$ruby_gems" && sudo gem update --system && sudo gem install bundler --no-ri --no-rdoc"
 install=$apt_get$ruby$ruby_gems
 
 if [[ "$server" == "local" ]]
