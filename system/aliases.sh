@@ -7,3 +7,4 @@ alias sr='screen -r'
 
 function c { cd $HOME/Workspace/$1;        }
 function t { cd $HOME/Workspace/telvue/$1; }
+function d { cd $HOME/Desktop/$1;          }
