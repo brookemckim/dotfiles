@@ -15,7 +15,7 @@ ruby_www="http://ftp.ruby-lang.org/pub/ruby"
 
 if [ -z $2 ]
 then
-  rubies='1.9.3-p125'
+  rubies='1.9.3-p194'
   echo "Installing $rubies"
 else
   rubies=$2
