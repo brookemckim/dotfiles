@@ -6,7 +6,7 @@ rubies=$2
 if [ -z $1 ]
 then
   echo "Please provide a host to rubystrap."
-  echo " remote - rubystrap root@192.168.1.2 1.9.3-p125"
+  echo " remote - rubystrap root@192.168.1.2 1.9.3-p194"
   echo " local  - rubystrap local 1.8.7-p352"
   exit 1
 fi  
