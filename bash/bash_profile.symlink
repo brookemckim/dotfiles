@@ -9,3 +9,6 @@ do
 done
 
 chmod +x $DOTS/bin/*
+
+# Default Editor
+export EDITOR=vi
