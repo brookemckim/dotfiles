@@ -1,6 +1,6 @@
 alias sourceme='source ~/.bash_profile'
 alias keyup='ssh-copy-id'
-alias cleardns='dscacheutil -flushcache'
+alias cleardns='sudo killall -HUP mDNSResponder'
 alias sc=screen
 alias sr='screen -r'
 
