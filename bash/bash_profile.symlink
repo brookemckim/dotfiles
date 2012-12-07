@@ -12,3 +12,6 @@ chmod +x $DOTS/bin/*
 
 # Default Editor
 export EDITOR=vi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
