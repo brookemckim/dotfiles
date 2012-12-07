@@ -3,31 +3,35 @@
 server=$1
 rubies=$2
 
-if [ -z $1 ]; then
+if [ -z $1 ]
+then
   echo "Please provide a host to rubystrap."
   echo " remote - rubystrap root@192.168.1.2 1.9.3-p194"
   echo " local  - rubystrap local 1.8.7-p352"
   exit 1
-fi  
+fi
 
 ruby_www="http://ftp.ruby-lang.org/pub/ruby"
 
-if [ -z $2 ]; then
+if [ -z $2 ]
+then
   rubies='1.9.3-p194'
   echo "Installing $rubies"
 else
   rubies=$2
   echo "Installing $2"
-fi  
+fi
 
-if [[ "$rubies" == 1.9* ]]; then
+if [[ "$rubies" == 1.9* ]]
+then
   ver="1.9"
-elif [[ "$rubies" == 1.8* ]]; then
+elif [[ "$rubies" == 1.8* ]]
+then
   ver="1.8"
 else
   echo "Unrecognized Ruby version"
   exit 1
-fi      
+fi
 
 # Install Ruby compile dependencies, install Ruby and RubyGems, upgrade Rubygems.
 #
@@ -41,36 +45,24 @@ fi
 #    sqlite3
 #    sqlite3-dev
 
-if [ -f /etc/debian-release ]; then
-  package_get="sudo apt-get update -y
-    && sudo apt-get install -y build-essential git-core subversion vim 
-    zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev sqlite3 
-    libsqlite3-dev libreadline-dev libncurses5-dev libreadline5
-    libyaml-dev"
-fi
+apt_get="sudo apt-get update -y
+         && sudo apt-get install -y build-essential git-core subversion vim 
+            zlib1g-dev libssl-dev libruby1.8 libxslt-dev libxml2-dev sqlite3 libsqlite3-dev
+            libreadline-dev libncurses5-dev libreadline5 libyaml-dev"
 
-if [ -f /etc/redhat-release ]; then 
-  package_get="yum groupinstall \"Development Libraries\" \"Development Tools\" 
-    && yum install openssl-devel.x86_64 readline-devel.x86_64 
-    sqlite-devel.x86_64 sqlite libxml2-devel.x86_64 libxslt-devel.x86_64
-    ruby-libs.x86_64 zlib-devel.x86_64 git.x86_64 compat-readline5.x86_64
-    readline.x86_64 ncurses-libs.x86_64 ncurses-devel.x86_64 
-    libyaml-devel.x86_64 vim-enhanced.x86_64 subversion.x86_64"
-fi
+ruby=" && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv && cd ruby-$rubies &&  ./configure && make && sudo make install"
 
-ruby=" && wget $ruby_www/$ver/ruby-$rubies.tar.gz -O - | tar xzv && cd ruby-$rubies &&  ./configure && make && sudo make install"               
-               
-if [ "$ver" == "1.8" ]; then
+if [ $ver == "1.8" ]; then
   ruby_gems=" && wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.21.tgz -O - | tar xzv && cd rubygems-1.8.21 && sudo ruby setup.rb"
 else
-  ruby_gems=" " 
-fi  
+  ruby_gems=" "
+fi
 
-ruby_gems=$ruby_gems" && sudo gem update --system && sudo gem install bundler --no-ri --no-rdoc"
-install=$package_get$ruby$ruby_gems
+ruby_gems=$ruby_gems" && sudo gem update --system && sudo gem install bundler --no-ri --no-rdoc; sudo gem install ruby-shadow --no-ri --no-rdoc; sudo gem install chef --no-ri --no-rdoc"
+install=$apt_get$ruby$ruby_gems
 
 if [[ "$server" == "local" ]]; then
   $install
 else
   ssh -t $server $install 
-fi             
+fi
