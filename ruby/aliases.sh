@@ -15,3 +15,7 @@ function deploy() {
 function cukes() {
   bundle exec rake db:test:prepare; bundle exec cucumber
 }
+
+function rbtest() {
+  ruby -I"lib:test" $1
+}
